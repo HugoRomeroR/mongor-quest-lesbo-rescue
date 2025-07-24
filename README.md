@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## <p align='center'> Mongor Quest: Lesbo Rescue </p>
 
-## Getting Started
+![Static Badge](https://img.shields.io/badge/RPG-blue)
+![Static Badge](https://img.shields.io/badge/Point&Click-blue)
+![Static Badge](https://img.shields.io/badge/Visual_Novel-blue)
+![Static Badge](https://img.shields.io/badge/Bullet_Hell-blue)
+![Static Badge](https://img.shields.io/badge/NextJs-brown)
+![Static Badge](https://img.shields.io/badge/Vercel-brown)
+![Static Badge](https://img.shields.io/badge/Undertale-red)
+![Static Badge](https://img.shields.io/badge/Deltarune-red)
+![Static Badge](https://img.shields.io/badge/Storyteller-red)
+![Static Badge](https://img.shields.io/badge/Ace_Attorney-red)
+![State Badge](https://img.shields.io/badge/Estado:-Disponible-green)
 
-First, run the development server:
+**Mongor Quest: Lesbo Rescue** es una aventura web donde ocurre un secuestro, pero tu, como usuario, debes ayudar al protagonista a resolver el misterio y poder salvar a la victima.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Este es un proyecto personal para el cumpleaños de un amigo, feliz cum, Fanbry.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[- Jugar a Lesbo Rescue -](https://www.mongor.quest/)

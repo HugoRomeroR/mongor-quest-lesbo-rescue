@@ -1,103 +1,159 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { TypeWriter } from '@/utils/AnimatedText';
+import '@/stylesCSS/GlobalLayout.css'
+
+const delayMs = 500;
+
+export default function Preludio() {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const txtRef = useRef<HTMLParagraphElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [firstTime, setFirstTime] = useState<boolean>(true);
+
+  // Imagenes del preludio, en orden
+  const images = useMemo(() => [
+    "https://placehold.co/600x400",
+    "https://placehold.co/600x500",
+    "https://placehold.co/600x600",
+    "https://placehold.co/200x200",
+    "https://placehold.co/100x400",
+    "https://placehold.co/600x50",
+    "https://placehold.co/1000x1000",
+  ], []);
+
+  // Texto del preludio, en orden
+  const texts = useMemo(() => [
+    "Probando scroll con imagenes",
+    "Texto de prueba este es un texto de prueba",
+    "Esto es solamente un texto de prueba para ver si funciona",
+    "<-- El scroll incluye una imagen y un texto.",
+    "El texto se muestra de a poco en la pantalla",
+    "Al dar click en el texto, este se mostrara por completo de una vez",
+    "Sin tener que esperar a que cargue.",
+  ], []);
+
+  useEffect(() => {
+    const container = document.getElementById('container');
+    const handleScroll = () => {
+      const scrollY = container?.scrollTop ?? 0;
+      const sectionHeight = window.innerHeight;
+      const index = Math.round(scrollY / sectionHeight);
+
+      if (index !== currentIndex) {
+        if (imgRef.current) {
+          imgRef.current.style.opacity = '0';
+        }
+        if (txtRef.current) {
+          txtRef.current.style.opacity = '0';
+        }
+        setTimeout(() => {
+          setCurrentIndex(index);
+          if (imgRef.current) {
+            imgRef.current.src = images[index];
+            imgRef.current.style.opacity = '1';
+          }
+          if (txtRef.current) {
+            txtRef.current.style.opacity = '1';
+          }
+        }, delayMs);
+      }
+    };
+    
+    container?.addEventListener('scroll', handleScroll);
+    return () => container?.removeEventListener('scroll', handleScroll);
+  }, [currentIndex, images]);
+
+  useEffect(() => {
+    setFirstTime(false);
+  }, []);
+  
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div ref={bodyRef} style={styles.body}>
+      {/* Se crean tantas secciones como imagenes haya, todas 
+      del tamaño del viewport del navegador del jugador, estan
+      todas vacias, pero sirven como anclas para el scroll */}
+      <div className='scroll-container' id='container' style={styles.container}>
+        {images.map((_, idx) => (
+          <div style={styles.section} key={idx} />
+        ))}
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* El contenido cambia dinamicamente dependiendo del porcentaje
+      de scroll, es decir, la seccion en la que se encuentra. El contenido
+      esta fijado a la pantalla, pero como se desvanece, esto no se nota. */}
+      <div style={styles.contentWrapper}>
+        {/* Inicia con la primera imágen, y una referencia al <img> */}
+        <div style={styles.imageWrapper}>
+          <img // eslint-disable-line
+            ref={imgRef}
+            src={images[0]}
+            alt="imagen"
+            style={{ ...styles.fadeImage, opacity: firstTime ? '0' : '1' }}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Inicia con el primer texto */}
+        <div style={styles.textWrapper} ref={txtRef}>
+          <TypeWriter text={texts[currentIndex]} forwardedRef={bodyRef} />
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+const styles: { [key: string]: React.CSSProperties } = {
+  body: {
+    margin: 0,
+    padding: 0,
+    scrollBehavior: 'smooth',
+    height: '100%',
+    width: '100%',
+    fontFamily: 'sans-serif',
+    background: 'black',
+  },
+  container: {
+    height: '100vh',
+    scrollSnapType: 'y mandatory',
+    overflowY: 'scroll',
+    background: 'transparent',
+  },
+  section: {
+    height: '100%',
+    scrollSnapAlign: 'start',
+    background: 'transparent',
+  },
+  contentWrapper: {
+    position: 'fixed',
+    padding: '20px',
+    width: '100%',
+    boxSizing: 'border-box',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    pointerEvents: 'none',
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '24px',
+  },
+  imageWrapper: {
+    userSelect: 'none',
+    width: '50%',
+  },
+  textWrapper: {
+    width: '50%',
+    height: 'auto',
+    transition: `opacity ${delayMs}ms ease-in-out`,
+    color: 'white',
+    boxSizing: 'border-box',
+    pointerEvents: 'auto',
+  },
+  fadeImage: {
+    width: 'calc(100vw - 40px)',
+    height: 'calc(100vh - 40px)',
+    transition: `opacity ${delayMs}ms ease-in-out`,
+    boxSizing: 'border-box',
+  },
+};
