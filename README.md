@@ -10,7 +10,7 @@
 ![Static Badge](https://img.shields.io/badge/Deltarune-red)
 ![Static Badge](https://img.shields.io/badge/Storyteller-red)
 ![Static Badge](https://img.shields.io/badge/Ace_Attorney-red)
-![State Badge](https://img.shields.io/badge/Estado:-Disponible-green)
+![State Badge](https://img.shields.io/badge/Estado:-En_desarrollo-orange)
 
 **Mongor Quest: Lesbo Rescue** es una aventura web donde ocurre un secuestro, pero tu, como usuario, debes ayudar al protagonista a resolver el misterio y poder salvar a la victima.
 

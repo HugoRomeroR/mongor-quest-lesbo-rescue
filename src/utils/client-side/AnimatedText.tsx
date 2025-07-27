@@ -8,19 +8,24 @@ interface TypeWriterProps {
   delay?: number;
   forwardedRef?: RefObject<any> | null; // eslint-disable-line
   instant?: boolean;
+  align?: string;
 }
 
-// Recibe un texto, un delay, y una referencia para saltear el texto
-// Instant para omitir animación de opacidad.
-export const TypeWriter: React.FC<TypeWriterProps> = ({ text, delay = 30, forwardedRef = undefined, instant = false }) => {
+// Componente que renderiza un texto con animacion de typewrite
+export const TypeWriter: React.FC<TypeWriterProps> = ({ text, delay = 30, forwardedRef = undefined, instant = false, align = 'center' }) => {
   const [reset, setReset] = useState(false);
   const [skipAnimation, setSkipAnimation] = useState(false);
+  const [visibleText, setVisibleText] = useState('');
   let globalIdx = 0;
 
   useEffect(() => {
     setReset(true);
     setSkipAnimation(false);
-    const timeout = setTimeout(() => setReset(false), 100);
+    setVisibleText('');
+    const timeout = setTimeout(() => {
+      setReset(false)
+      setVisibleText(text);
+    }, 100);
     return () => clearTimeout(timeout);
   }, [text]);
 
@@ -61,13 +66,13 @@ export const TypeWriter: React.FC<TypeWriterProps> = ({ text, delay = 30, forwar
         display: 'flex',
         flexWrap: 'wrap',
         alignContent: 'center',
-        justifyContent: 'center',
+        justifyContent: `${align}`,
         height: '100%',
         width: '100%',
       }}
       onClick={forwardedRef ? undefined : () => setSkipAnimation(true)}
     >
-      {text.split(' ').map((word, wordIdx) => (
+      {visibleText.split(' ').map((word, wordIdx) => (
         <span
           key={wordIdx}
           style={{
