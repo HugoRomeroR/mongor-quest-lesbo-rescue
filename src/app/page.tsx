@@ -3,8 +3,10 @@
 import { useMemo } from 'react';
 import { NarrativeDisplay } from '@/utils/client-side/NarrativeDisplay';
 import { SkipButton } from '@/utils/client-side/SkipButton';
+import { useConfig } from '@/utils/global-config/config';
 
 export default function Preludio() {
+  const config = useConfig();
 
   // Imagenes del preludio, en orden
   const images = useMemo(() => [
@@ -31,7 +33,9 @@ export default function Preludio() {
   return (
     <>
       <NarrativeDisplay delayMs={800} images={images} texts={texts} />
-      <SkipButton text="Saltar Intro" onClick={() => (window.location.href = "inicio")}/>
+      {!config.prelude &&
+        <SkipButton text="Saltar Intro" onClick={() => (window.location.href = "inicio")}/>
+      }
     </>
   );
 };
